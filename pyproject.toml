@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qwd"
+version = "0.1.0"
+description = "A shortcut to perform Git operations"
+readme = "readme.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+  	{name = "Nicholas Valentinus", email = "nicho@scapeville.com"},
+]
+
+[tool.setuptools.packages.find]
+exclude = [
+    "docs*",
+]
+
+[project.urls]
+Repository = "https://github.com/nvfp/QWD"
+
+[project.scripts]
+qwd = "qwd.__main__:main"
