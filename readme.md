@@ -16,3 +16,4 @@ They don't have a pattern; I just add the commands I use the most.
 If you want to give it a try, run `pip install qwd`.
 
 <!-- Dev note: Don't run commands that are destructive or irreversible -->
+
