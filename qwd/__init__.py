@@ -31,4 +31,4 @@ def main():
     args = parse()
 
     if args.cmd == 'q':
-        print('hi 123')
+        print('hi 1234')
