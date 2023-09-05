@@ -1,4 +1,4 @@
-make `git rev-list --count HEAD` easy to type by just calling it `qwd q`.
+Make `git rev-list --count HEAD` easy to type by just calling it `qwd q`.
 
 ## Safe commands
 
@@ -11,9 +11,12 @@ type | to do
 
 ## Destructive commands
 
-type | to do 
----  | ---
-`qwd qwd` | I made some changes, but I don't remember what I did. Create a commit for me.
+Each destructive command prompts confirmation before execution.
+
+type | to do | translation
+---  | --- | ---
+`qwd qwd` | `git add .` → `git status` → `git commit -m "<auto generated>"` | I made some changes, but I don't remember what I did. Create a commit for me.
+`qwd qwd` | `git status` → `git checkout main` → `git pull` | 
 
 ## Installing
 
