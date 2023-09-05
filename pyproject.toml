@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qwd"
-version = "0.5.0b"
+version = "0.6.0b"
 description = "A shortcut to perform Git operations"
 readme = "readme.md"
 requires-python = ">=3.8"
