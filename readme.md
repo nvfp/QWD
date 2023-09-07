@@ -20,4 +20,7 @@ type | to do | translation
 
 ## Installing
 
-via PyPI, run `pip install qwd`.
+<!-- via PyPI, run `pip install qwd`. -->
+```sh
+gcc main.c -o qwd
+```
