@@ -15,8 +15,8 @@ Each destructive command prompts confirmation before execution.
 
 type | to do | translation
 ---  | --- | ---
-`qwd qwd` | `git add .` → `git status` → `git commit -m "<auto generated>"` | I made some changes, but I don't remember what I did. Create a commit for me.
-`qwd qwd` | `git status` → `git checkout main` → `git pull` | 
+<!-- `qwd qwd` | `git add .` → `git status` → `git commit -m "<auto generated>"` | I made some changes, but I don't remember what I did. Create a commit for me.
+`qwd qwd` | `git status` → `git checkout main` → `git pull` |  -->
 
 ## Installing
 
