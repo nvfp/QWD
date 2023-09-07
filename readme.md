@@ -9,7 +9,7 @@ type | to do
 `qwd w` | `git log -3`
 `qwd wd` | `git diff --cached`
 
-## Destructive commands
+## Destructive commands (coming soon)
 
 Each destructive command prompts confirmation before execution.
 
