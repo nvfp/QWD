@@ -146,6 +146,44 @@ int do_d()
     return 0;
 }
 
+int do_dwd()
+{
+    info("Running `git status`");
+    system("git status");
+    info("Running `git branch`");
+    system("git branch");
+
+    // confirmation
+    info(
+        "Will execute these commands (destructive):\n"
+        "git checkout main\n"
+        "git pull\n"
+        "git branch -D up\n"
+        "git branch"
+    );
+    printf("Press Enter to continue, CTRL+C to abort\n");
+    char usrInput[256];
+    if (fgets(usrInput, sizeof(usrInput), stdin) == NULL) {
+        // Handle CTRL+C here if needed
+        return 1; // Exit with an error code
+    }
+    debug("Running...");
+    
+    info("Running `git checkout main`");
+    system("git checkout main");
+    
+    info("Running `git pull`");
+    system("git pull");
+    
+    info("Running `git branch -D up`");
+    system("git branch -D up");
+    
+    info("Running `git branch`");
+    system("git branch");
+
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
 
     struct Logger logger;
@@ -157,7 +195,6 @@ int main(int argc, char *argv[]) {
     if (argc == 1) {
         printf(
             "USAGE\n"
-            // "=====\n"
             "\n"
             "#Safe commands\n"
             "q   : git rev-list --count HEAD\n"
@@ -166,19 +203,17 @@ int main(int argc, char *argv[]) {
             "wd  : git diff --cached\n"
             "ww  : git status\n"
             "wdwd: git diff --cached --stat --compact-summary\n"
-
             "\n"
             "#Destructive\n"
             "qwd: make a commit\n"
             "d  : make new branch named 'up'\n"
             "dd : git push origin up\n"
+            "dwd: back to main branch\n"
         );
         return 0;
     }
 
     char *command = argv[1];
-
-    // printf("Command: %s\n", command);
 
     if (strcmp(command, "q") == 0) {
         info("git rev-list --count HEAD");
@@ -208,12 +243,10 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(command, "dd") == 0) {
         info("git push origin up");
         system("git push origin up");
-    // } else if (strcmp(command, "123") == 0) {
-    //     char* currentTime = getCurrentTime();
-    //     if (currentTime != NULL) {
-    //         printf("Current Time: %s\n", currentTime);
-    //         free(currentTime);
-    //     }
+
+    } else if (strcmp(command, "dwd") == 0) {
+        do_dwd();
+
     } else {
         printf("Invalid command: %s\n", command);
         return 1;

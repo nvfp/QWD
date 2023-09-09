@@ -22,7 +22,7 @@ type | to do | translation
 `qwd qwd` | `git status` → `git add .` → `git commit -m "<auto generated>"` | I made some changes, but I don't remember what I did. Create a commit for me.
 `qwd d` | `git status` → `git branch` → `git checkout -b up` | making changes by making new branch named "up"
 `qwd dd` | `git push origin up` | push and PR
-`qwd dwd` | `git status` → `git checkout main` → `git pull` → `git branch -D up` → `git branch` | back to main branch
+`qwd dwd` | `git status` → `git branch` → `git checkout main` → `git pull` → `git branch -D up` → `git branch` | back to main branch
 
 
 ## Installing
