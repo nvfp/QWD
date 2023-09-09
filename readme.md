@@ -31,3 +31,4 @@ type | to do | translation
 # gcc main.c -o qwd
 gcc src/main.c src/utils.c -o qwd
 ```
+
