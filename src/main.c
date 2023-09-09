@@ -340,20 +340,39 @@ void do_qwd()
     // pclose(pipe);
 
 
+    // <this is working but unreadable>
+    // char command[102400];
+    // char escaped_commit_message[102400];
+    // FILE *pipe;
+    // int i, j;
+    // for (i = 0, j = 0; i < strlen(output); i++, j++) {
+    //     if (output[i] == '\n') {
+    //         escaped_commit_message[j++] = '\\';
+    //         escaped_commit_message[j] = 'n';
+    //     } else {
+    //         escaped_commit_message[j] = output[i];
+    //     }
+    // }
+    // escaped_commit_message[j] = '\0';
+    // sprintf(command, "git commit -m \"this is a dev commit\" -m \"%s\"", escaped_commit_message);
+    // pipe = popen(command, "r");
+    // if (pipe == NULL) {
+    //     printf("Failed to run command\n");
+    //     return 1;
+    // }
+    // pclose(pipe);
+    // </this is working but unreadable>
+
+
     char command[102400];
-    char escaped_commit_message[102400];
+    char *line;
     FILE *pipe;
-    int i, j;
-    for (i = 0, j = 0; i < strlen(output); i++, j++) {
-        if (output[i] == '\n') {
-            escaped_commit_message[j++] = '\\';
-            escaped_commit_message[j] = 'n';
-        } else {
-            escaped_commit_message[j] = output[i];
-        }
+    sprintf(command, "git commit -m \"this is a dev commit\"");
+    line = strtok(output, "\n");
+    while (line != NULL) {
+        sprintf(command + strlen(command), " -m \"%s\"", line);
+        line = strtok(NULL, "\n");
     }
-    escaped_commit_message[j] = '\0';
-    sprintf(command, "git commit -m \"this is a dev commit\" -m \"%s\"", escaped_commit_message);
     pipe = popen(command, "r");
     if (pipe == NULL) {
         printf("Failed to run command\n");
