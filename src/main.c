@@ -403,29 +403,50 @@ int do_qwd()
     // <this works best but not well formatted>
 
 
-    // Get the last line and remove it from the original string
-    char* last_line = get_last_line_and_remove_from_original(output);
-    // Construct the 'git commit' command
+    // didnt work
+    // // Get the last line and remove it from the original string
+    // char* last_line = get_last_line_and_remove_from_original(output);
+    // // Construct the 'git commit' command
+    // char command[102400];
+    // sprintf(command, "git commit -m \"this is a dev commit: %s\"", last_line);
+    // // Append the remaining lines to the 'git commit' command
+    // char* line = strtok(output, "\n");
+    // while (line != NULL) {
+    //     strcat(command, " -m \"");
+    //     strcat(command, line);
+    //     strcat(command, "\"");
+    //     line = strtok(NULL, "\n");
+    // }
+    // // Run the 'git commit' command
+    // FILE* pipe = popen(command, "r");
+    // if (pipe == NULL) {
+    //     printf("Failed to run command\n");
+    //     return 1;
+    // }
+    // pclose(pipe);
+    // free(output);
+    // // Free dynamically allocated memory for last_line
+    // free(last_line);
+
+
     char command[102400];
+    char *last_line;
+    char *line;
+    FILE *pipe;
+    last_line = strrchr(output, '\n') + 1;
     sprintf(command, "git commit -m \"this is a dev commit: %s\"", last_line);
-    // Append the remaining lines to the 'git commit' command
-    char* line = strtok(output, "\n");
+    line = strtok(output, "\n");
     while (line != NULL) {
-        strcat(command, " -m \"");
-        strcat(command, line);
-        strcat(command, "\"");
+        sprintf(command + strlen(command), " -m \"%s\"", line);
         line = strtok(NULL, "\n");
     }
-    // Run the 'git commit' command
-    FILE* pipe = popen(command, "r");
+    pipe = popen(command, "r");
     if (pipe == NULL) {
         printf("Failed to run command\n");
         return 1;
     }
     pclose(pipe);
     free(output);
-    // Free dynamically allocated memory for last_line
-    free(last_line);
 
     info("Running `git branch`");
     system("git branch");

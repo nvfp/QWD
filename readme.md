@@ -12,6 +12,7 @@ type | to do
 <!-- `qwd wdwd` | `git add .` → `git diff --cached --stat --compact-summary` -->
 `qwd wdwd` | `git diff --cached --stat --compact-summary`
 
+
 ## Destructive commands (coming soon)
 
 Each destructive command prompts confirmation before execution.
