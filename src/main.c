@@ -93,7 +93,34 @@
 //     {'qwd', "git reset"},
 // };
 
-void do_qwd()
+
+// Function to extract the last line from a multiline string
+char* get_last_line_and_remove_from_original(char* str) {
+    char* last_line = NULL;
+
+    // Find the last occurrence of '\n' in the string
+    char* last_newline = strrchr(str, '\n');
+
+    if (last_newline != NULL) {
+        // Extract the last line
+        last_line = strdup(last_newline + 1);
+
+        // Remove the last line from the original string
+        *last_newline = '\0';
+    }
+
+    return last_line;
+}
+void remove_trailing_newline(char *str) {
+    int len = strlen(str);
+    // Check if the last character is a newline
+    if (len > 0 && str[len - 1] == '\n') {
+        // Replace it with a null terminator
+        str[len - 1] = '\0';
+    }
+}
+
+int do_qwd()
 {
     // info("Running `git status`");
     // system("git status");
@@ -364,10 +391,81 @@ void do_qwd()
     // </this is working but unreadable>
 
 
+    // <this works best but not well formatted>
+    // char command[102400];
+    // char *line;
+    // FILE *pipe;
+    // sprintf(command, "git commit -m \"this is a dev commit\"");
+    // line = strtok(output, "\n");
+    // while (line != NULL) {
+    //     sprintf(command + strlen(command), " -m \"%s\"", line);
+    //     line = strtok(NULL, "\n");
+    // }
+    // pipe = popen(command, "r");
+    // if (pipe == NULL) {
+    //     printf("Failed to run command\n");
+    //     return 1;
+    // }
+    // pclose(pipe);
+    // free(output);
+    // <this works best but not well formatted>
+
+
+    // didnt work
+    // // Get the last line and remove it from the original string
+    // char* last_line = get_last_line_and_remove_from_original(output);
+    // // Construct the 'git commit' command
+    // char command[102400];
+    // sprintf(command, "git commit -m \"this is a dev commit: %s\"", last_line);
+    // // Append the remaining lines to the 'git commit' command
+    // char* line = strtok(output, "\n");
+    // while (line != NULL) {
+    //     strcat(command, " -m \"");
+    //     strcat(command, line);
+    //     strcat(command, "\"");
+    //     line = strtok(NULL, "\n");
+    // }
+    // // Run the 'git commit' command
+    // FILE* pipe = popen(command, "r");
+    // if (pipe == NULL) {
+    //     printf("Failed to run command\n");
+    //     return 1;
+    // }
+    // pclose(pipe);
+    // free(output);
+    // // Free dynamically allocated memory for last_line
+    // free(last_line);
+
+
+    remove_trailing_newline(output);  // This is the problem causing why changing the last line seems to have failed.
+    printf("original output:\n%s\n", output);
     char command[102400];
+    // char *last_line;
     char *line;
     FILE *pipe;
-    sprintf(command, "git commit -m \"this is a dev commit\"");
+    // last_line = strrchr(output, '\n') + 1; // Find the start of the last line
+    // *(last_line - 1) = '\0'; // Remove the last line from the original string
+    // vvvvvvvv
+    // char* last_line = strrchr(output, '\n'); // Find the start of the last line
+    // size_t last_line_length = strlen(last_line); // Calculate the length of the last line
+    // *last_line = '\0'; // Remove the last line from the original string
+    // vvvvvvvvvvvvvv
+    char *last_line = output;
+    char *current = output;
+    while (*current) {
+        if (*current == '\n') {
+            last_line = current + 1;  // Move to the next character after the newline
+        }
+        current++;
+    }
+    char *lastNewline = strrchr(output, '\n');
+    if (lastNewline != NULL) {
+        // Null-terminate the string at the last newline character
+        *lastNewline = '\0';
+    }
+    printf("Last line: %s\n", last_line + 1); // Print the last line
+    printf("Modified output:\n%s\n", output); // Print the modified output
+    sprintf(command, "git commit -m \"this is a dev commit: %s\"", last_line + 1);
     line = strtok(output, "\n");
     while (line != NULL) {
         sprintf(command + strlen(command), " -m \"%s\"", line);
@@ -388,6 +486,34 @@ void do_qwd()
     system("git status");
 }
 
+int do_d()
+{
+    info("Running `git status`");
+    system("git status");
+    info("Running `git branch`");
+    system("git branch");
+
+    // confirmation
+    info(
+        "Will execute these commands (destructive):\n"
+        // "git pull\n"
+        // "git status\n"
+        // "git branch\n"
+        "git checkout -b up"
+    );
+    printf("Press Enter to continue, CTRL+C to abort\n");
+    char usrInput[256];
+    if (fgets(usrInput, sizeof(usrInput), stdin) == NULL) {
+        // Handle CTRL+C here if needed
+        return 1; // Exit with an error code
+    }
+    debug("Running...");
+    
+    info("Running `git checkout -b up`");
+    system("git checkout -b up");
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
 
     struct Logger logger;
@@ -402,13 +528,18 @@ int main(int argc, char *argv[]) {
             // "=====\n"
             "\n"
             "#Safe commands\n"
-            "q : git rev-list --count HEAD\n"
-            "qw: git branch\n"
-            "w : git log -3\n"
-            "wd: git diff --cached\n"
+            "q   : git rev-list --count HEAD\n"
+            "qw  : git branch\n"
+            "w   : git log -3\n"
+            "wd  : git diff --cached\n"
+            "ww  : git status\n"
+            "wdwd: git diff --cached --stat --compact-summary\n"
 
-            "#Safe commands\n"
-            "qwd: \n"
+            "\n"
+            "#Destructive\n"
+            "qwd: make a commit\n"
+            "d  : make new branch named 'up'\n"
+            "dd : git push origin up\n"
         );
         return 0;
     }
@@ -418,16 +549,33 @@ int main(int argc, char *argv[]) {
     // printf("Command: %s\n", command);
 
     if (strcmp(command, "q") == 0) {
+        info("git rev-list --count HEAD");
         system("git rev-list --count HEAD");
     } else if (strcmp(command, "qw") == 0) {
+        info("git branch");
         system("git branch");
     } else if (strcmp(command, "w") == 0) {
+        info("git log -3");
         system("git log -3");
     } else if (strcmp(command, "wd") == 0) {
+        info("git diff --cached");
         system("git diff --cached");
+    } else if (strcmp(command, "ww") == 0) {
+        info("git status");
+        system("git status");
+    } else if (strcmp(command, "wdwd") == 0) {
+        info("git diff --cached --stat --compact-summary");
+        system("git diff --cached --stat --compact-summary");
 
     } else if (strcmp(command, "qwd") == 0) {
         do_qwd();
+
+    } else if (strcmp(command, "d") == 0) {
+        do_d();
+
+    } else if (strcmp(command, "dd") == 0) {
+        info("git push origin up");
+        system("git push origin up");
     // } else if (strcmp(command, "123") == 0) {
     //     char* currentTime = getCurrentTime();
     //     if (currentTime != NULL) {
