@@ -437,7 +437,7 @@ int do_qwd()
     // last_line = strrchr(output, '\n') + 1; // Find the start of the last line
     // *(last_line - 1) = '\0'; // Remove the last line from the original string
     // vvvvvvvv
-    char* last_line = strrchr(output, '\n'); // Find the start of the last line
+    char* last_line = strrchr(output, '\r\n'); // Find the start of the last line
     *last_line = '\0'; // Remove the last line from the original string
     printf("Last line: %s\n", last_line + 1); // Print the last line
     printf("Modified output:\n%s\n", output); // Print the modified output
