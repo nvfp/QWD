@@ -430,12 +430,15 @@ int do_qwd()
 
 
     char command[102400];
-    char *last_line;
+    // char *last_line;
     char *line;
     FILE *pipe;
-    last_line = strrchr(output, '\n') + 1; // Find the start of the last line
-    *(last_line - 1) = '\0'; // Remove the last line from the original string
-    sprintf(command, "git commit -m \"this is a dev commit: %s\"", last_line);
+    // last_line = strrchr(output, '\n') + 1; // Find the start of the last line
+    // *(last_line - 1) = '\0'; // Remove the last line from the original string
+    // vvvvvvvv
+    char* last_line = strrchr(output, '\n'); // Find the start of the last line
+    *last_line = '\0'; // Remove the last line from the original string
+    sprintf(command, "git commit -m \"this is a dev commit: %s\"", last_line + 1);
     line = strtok(output, "\n");
     while (line != NULL) {
         sprintf(command + strlen(command), " -m \"%s\"", line);
