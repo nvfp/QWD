@@ -327,10 +327,33 @@ void do_qwd()
     // snprintf(commit_command, sizeof(commit_command), "git commit -m \"this is a dev commit\" -m \"%s\"", getenv("AUTO_COMMIT_MSG"));
     // system(commit_command);
 
-    char command[102400];
-    FILE *pipe;
 
-    sprintf(command, "git commit -m \"this is a dev commit\" -m \"%s\"", output);
+    // char command[102400];
+    // FILE *pipe;
+
+    // sprintf(command, "git commit -m \"this is a dev commit\" -m \"%s\"", output);
+    // pipe = popen(command, "r");
+    // if (pipe == NULL) {
+    //     printf("Failed to run command\n");
+    //     return 1;
+    // }
+    // pclose(pipe);
+
+
+    char command[102400];
+    char escaped_commit_message[102400];
+    FILE *pipe;
+    int i, j;
+    for (i = 0, j = 0; i < strlen(output); i++, j++) {
+        if (output[i] == '\n') {
+            escaped_commit_message[j++] = '\\';
+            escaped_commit_message[j] = 'n';
+        } else {
+            escaped_commit_message[j] = output[i];
+        }
+    }
+    escaped_commit_message[j] = '\0';
+    sprintf(command, "git commit -m \"this is a dev commit\" -m \"%s\"", escaped_commit_message);
     pipe = popen(command, "r");
     if (pipe == NULL) {
         printf("Failed to run command\n");
