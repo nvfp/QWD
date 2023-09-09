@@ -111,6 +111,14 @@ char* get_last_line_and_remove_from_original(char* str) {
 
     return last_line;
 }
+void remove_trailing_newline(char *str) {
+    int len = strlen(str);
+    // Check if the last character is a newline
+    if (len > 0 && str[len - 1] == '\n') {
+        // Replace it with a null terminator
+        str[len - 1] = '\0';
+    }
+}
 
 int do_qwd()
 {
@@ -429,6 +437,7 @@ int do_qwd()
     // free(last_line);
 
 
+    remove_trailing_newline(output);  // This is the problem causing why changing the last line seems to have failed.
     printf("original output:\n%s\n", output);
     char command[102400];
     // char *last_line;
@@ -437,9 +446,23 @@ int do_qwd()
     // last_line = strrchr(output, '\n') + 1; // Find the start of the last line
     // *(last_line - 1) = '\0'; // Remove the last line from the original string
     // vvvvvvvv
-    char* last_line = strrchr(output, '\n'); // Find the start of the last line
-    size_t last_line_length = strlen(last_line); // Calculate the length of the last line
-    *last_line = '\0'; // Remove the last line from the original string
+    // char* last_line = strrchr(output, '\n'); // Find the start of the last line
+    // size_t last_line_length = strlen(last_line); // Calculate the length of the last line
+    // *last_line = '\0'; // Remove the last line from the original string
+    // vvvvvvvvvvvvvv
+    char *last_line = output;
+    char *current = output;
+    while (*current) {
+        if (*current == '\n') {
+            last_line = current + 1;  // Move to the next character after the newline
+        }
+        current++;
+    }
+    char *lastNewline = strrchr(output, '\n');
+    if (lastNewline != NULL) {
+        // Null-terminate the string at the last newline character
+        *lastNewline = '\0';
+    }
     printf("Last line: %s\n", last_line + 1); // Print the last line
     printf("Modified output:\n%s\n", output); // Print the modified output
     sprintf(command, "git commit -m \"this is a dev commit: %s\"", last_line + 1);
