@@ -11,6 +11,7 @@ type | to do
 `qwd wd` | `git diff --cached`
 `qwd ww` | `git status`
 `qwd wdwd` | `git diff --cached --stat --compact-summary`
+`qwd qdq` | `git status` → `git branch`
 
 
 ## Destructive commands (coming soon)
@@ -22,11 +23,12 @@ type | to do | translation
 `qwd qwd` | `git status` → `git add .` → `git commit -m "<auto generated>"` | I made some changes, but I don't remember what I did. Create a commit for me.
 `qwd d` | `git status` → `git branch` → `git checkout -b up` | making changes by making new branch named "up"
 `qwd dd` | `git push origin up` | push and PR
-`qwd dwd` | `git status` → `git branch` → `git checkout main` → `git pull` → `git branch -D up` → `git branch` | back to main branch
+`qwd dwd` | `git status` → `git branch` → `git checkout main` → `git pull` → `git branch -D up` → `git branch` → `git status` | back to main branch
+`qwd wdw` | `git status` → `git add .` → `git commit -m <given from the user input>` | easy commit typing no double quotes needed
 
 
 ## Installing
 
 ```sh
-gcc src/main.c src/utils.c -o qwd
+gcc src/main.c src/utils.c src/printer.c -o qwd
 ```
