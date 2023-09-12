@@ -1,6 +1,10 @@
 # Changelog
 
 
+- 1.2.0 (Sep 12, 2023):
+    - New commands: `qdq` and `wdw`
+    - add credit for `qwd` command
+
 - 1.1.0 (Sep 9, 2023):
     - New commands: `ww`, `qwd`, `d`
 

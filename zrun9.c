@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[]) {
 
-    if (system("gcc src/main.c src/utils.c -o test_exe") != 0) {
+    if (system("gcc src/main.c src/utils.c src/printer.c -o test_exe") != 0) {
         fprintf(stderr, "Compilation failed\n");
         return 1;
     }
