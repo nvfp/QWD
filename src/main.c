@@ -330,11 +330,13 @@ int main(int argc, char *argv[]) {
     char *command = argv[1];
 
     if (strcmp(command, "q") == 0) {
-        info("git rev-list --count HEAD");
+        printer("Running: git rev-list --count HEAD");
         system("git rev-list --count HEAD");
+        printer_closing("Running: git rev-list --count HEAD");
     } else if (strcmp(command, "qw") == 0) {
-        info("git branch");
+        printer("Running: git branch");
         system("git branch");
+        printer_closing("Running: git branch");
     } else if (strcmp(command, "w") == 0) {
         printer_header("`git log -3`");
         info("git log -3");
@@ -343,7 +345,7 @@ int main(int argc, char *argv[]) {
         info("git diff --cached");
         system("git diff --cached");
     } else if (strcmp(command, "ww") == 0) {
-        printer_header("`git status`");
+        // printer_header("`git status`");
         printer("Running: git status");
         // info("git status");
         system("git status");
@@ -364,16 +366,20 @@ int main(int argc, char *argv[]) {
 
 
     } else if (strcmp(command, "qwd") == 0) {
+        printer_header("`qwd command..`");
         do_qwd();
 
     } else if (strcmp(command, "d") == 0) {
+        printer_header("`d command..`");
         do_d();
 
     } else if (strcmp(command, "dd") == 0) {
-        info("git push origin up");
+        printer("Running: git push origin up");
         system("git push origin up");
+        printer_closing("Running: git push origin up");
 
     } else if (strcmp(command, "dwd") == 0) {
+        printer_header("`dwd command..`");
         do_dwd();
 
     } else if (strcmp(command, "wdw") == 0) {
