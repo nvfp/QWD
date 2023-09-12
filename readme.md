@@ -14,7 +14,7 @@ type | to do
 `qwd qdq` | `git status` → `git branch`
 
 
-## Destructive commands (coming soon)
+## Destructive commands
 
 Each destructive command prompts confirmation before execution.
 

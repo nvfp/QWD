@@ -289,6 +289,10 @@ int do_wdw(int argc, char *argv[])
     }
     debug("Running...");
 
+    printer("Running: git add .");
+    system("git add .");
+    printer_closing("Running: git add .");
+
     printer("Running: git commit");
     system(command);
     printer_closing("Running: git commit");
@@ -315,7 +319,7 @@ int main(int argc, char *argv[]) {
             "wd  : git diff --cached\n"
             "ww  : git status\n"
             "wdwd: git diff --cached --stat --compact-summary\n"
-            "qdq : git diff --cached --stat --compact-summary\n"
+            "qdq : git status + git branch\n"
             "\n"
             "#Destructive\n"
             "qwd: make commit with auto-generated commit message\n"
