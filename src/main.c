@@ -202,52 +202,6 @@ int do_dwd()
 
 int do_wdw(int argc, char *argv[])
 {
-    // // Check if there are at least two arguments (including the program name)
-    // if (argc < 2) {
-    //     printf("Usage: %s <string1> <string2> ...\n", argv[0]);
-    //     return 1; // Exit with an error code
-    // }
-
-    // // Calculate the total length of the concatenated string
-    // int totalLength = 0;
-    // for (int i = 1; i < argc; i++) {
-    //     totalLength += strlen(argv[i]);
-    // }
-
-    // // Allocate memory for the concatenated string
-    // char *concatenated = (char *)malloc(totalLength + 1);
-
-    // // Initialize the concatenated string as an empty string
-    // strcpy(concatenated, "");
-
-    // // Concatenate the strings (excluding the first one)
-    // for (int i = 1; i < argc; i++) {
-    //     strcat(concatenated, argv[i]);
-    // }
-
-    // // Print the concatenated string
-    // printf("Concatenated string: %s\n", concatenated);
-
-    // // Don't forget to free the allocated memory
-    // free(concatenated);
-
-
-
-
-
-    // debugging purposes
-    printf("argc: %d\n", argc);
-    for (int i = 0; i < argc; i++) {
-        printf("argv[%d]: %s\n", i, argv[i]);
-    }
-
-
-
-
-    // if (argc < 2) {
-    //     printf("Not enough arguments.\n");
-    //     return 1;
-    // }
     if (argc < 3) {
         error("need at least 1 commit message word.\n");
         return 1;
@@ -256,8 +210,6 @@ int do_wdw(int argc, char *argv[])
     // Initialize an empty string to store the result
     char result[8192] = "";
 
-    // // Start from the second argument (index 1) and concatenate them with spaces
-    // for (int i = 1; i < argc; i++) {
     // Start from the 3rd argument (index 2) and concatenate them with spaces
     for (int i = 2; i < argc; i++) {
         strcat(result, argv[i]);
@@ -265,9 +217,6 @@ int do_wdw(int argc, char *argv[])
             strcat(result, " ");
         }
     }
-
-    // Print the concatenated string
-    // printf("Concatenated arguments: %s\n", result);
 
     char command[9000];
     sprintf(command, "git commit -m \"%s\"", result);
