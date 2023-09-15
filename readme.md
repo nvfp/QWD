@@ -45,5 +45,8 @@ Each destructive command prompts confirmation before execution.
 ## Installing
 
 1. Download the stable version from the release tab.
-1. Run this to compile the program: `gcc src/main.c src/utils.c src/printer.c -o qwd`.
+1. Run this to compile the program:
+    ```sh
+    gcc src/main.c src/utils.c src/printer.c -o qwd
+    ```
 1. Done, You are great!

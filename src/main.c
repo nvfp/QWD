@@ -25,7 +25,7 @@ void remove_trailing_newline(char *str) {
     }
 }
 
-int do_qwd()
+int do_qwd(int argc, char *argv[])
 {
     printer("Running: git status");
     system("git status");
@@ -271,7 +271,7 @@ int main(int argc, char *argv[]) {
             "qdq : git status + git branch\n"
             "\n"
             "#Destructive\n"
-            "qwd: make commit with auto-generated commit message\n"
+            "qwd: make commit with auto-generated commit message (optionally with custom commit header message)\n"
             "d  : make new branch named 'up'\n"
             "dd : git push origin up\n"
             "dwd: back to main branch\n"
@@ -320,7 +320,7 @@ int main(int argc, char *argv[]) {
 
     } else if (strcmp(command, "qwd") == 0) {
         printer_header("`qwd command..`");
-        do_qwd();
+        do_qwd(argc, argv);
 
     } else if (strcmp(command, "d") == 0) {
         printer_header("`d command..`");
