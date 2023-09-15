@@ -220,7 +220,7 @@ int do_wdw(int argc, char *argv[])
 
     char command[9000];
     sprintf(command, "git commit -m \"%s\"", result);
-    printf("command: %s\n", command);
+    // printf("command: %s\n", command);
 
     printer("Running: git status");
     system("git status");
