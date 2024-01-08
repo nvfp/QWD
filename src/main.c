@@ -269,6 +269,7 @@ int main(int argc, char *argv[]) {
             "ww  : git status\n"
             "wdwd: git diff --cached --stat --compact-summary\n"
             "qdq : git status + git branch\n"
+            " : git log -1\n"
             "\n"
             "#Destructive\n"
             "qwd: make commit with auto-generated commit message (optionally with custom commit header message)\n"

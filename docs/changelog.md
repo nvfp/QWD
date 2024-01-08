@@ -1,6 +1,9 @@
 # Changelog
 
 
+- 1.4.0 (Sep 17, 2023):
+    - New commands: ``
+
 - 1.3.0 (Sep 15, 2023):
     - Now `qwd qwd` can have custom header commit message. if not given, will not using custom header (just the auto-generated commit message).
 
